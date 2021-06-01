@@ -19,8 +19,9 @@ class SpashState extends State<SplashView> {
   }
 
   void _timer () async{
+    //TODO: We gotta make sure we aren't already logged in
     Future.delayed(Duration(seconds: 5)).then((value) {
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, '/login');
     });
   }
 

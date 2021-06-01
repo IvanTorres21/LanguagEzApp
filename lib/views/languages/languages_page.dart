@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:languageez_app/constants/text_styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class HomePageView extends StatefulWidget {
+class LanguagePageView extends StatefulWidget {
 
 
   @override
   State<StatefulWidget> createState() {
-    return HomePageState();
+    return LanguagePageState();
   }
 }
 
-class HomePageState extends State<HomePageView> {
+class LanguagePageState extends State<LanguagePageView> {
 
 
   @override
@@ -21,22 +21,23 @@ class HomePageState extends State<HomePageView> {
     return Stack(
       children: [
         Positioned(
-          top: 0,
-          child: SvgPicture.asset('assets/svg/upper_decor.svg'),
+          bottom: 60,
+          child: SvgPicture.asset('assets/svg/lower_decor.svg'),
         ),
         Positioned(
-            top: 0,
+            bottom: 60,
+            right: 0,
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 50, horizontal: 10),
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
               child: Text(
-                'Welcome to \n    LanguagEz!',
+                'Languages',
                 style: titleStyle,
               ),
             )
         ),
         ListView(
           children: [
-            //TODO: Get notifications
+            //TODO: Get Languages
           ],
         ),
       ],

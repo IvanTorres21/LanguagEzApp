@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:languageez_app/constants/text_styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class HomePageView extends StatefulWidget {
+class DictionaryPageView extends StatefulWidget {
 
 
   @override
   State<StatefulWidget> createState() {
-    return HomePageState();
+    return DictionaryPageState();
   }
 }
 
-class HomePageState extends State<HomePageView> {
+class DictionaryPageState extends State<DictionaryPageView> {
 
 
   @override
@@ -29,7 +29,7 @@ class HomePageState extends State<HomePageView> {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 50, horizontal: 10),
               child: Text(
-                'Welcome to \n    LanguagEz!',
+                'Dictionaries',
                 style: titleStyle,
               ),
             )
