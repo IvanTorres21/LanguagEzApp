@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:languageez_app/constants/text_styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:languageez_app/models/user.dart';
+import 'package:languageez_app/utility/user_controller.dart';
 import 'package:languageez_app/widgets/TextFields/InputField.dart';
 
 class SignUpPageView extends StatefulWidget {
@@ -20,6 +22,7 @@ class SignUpPageState extends State<SignUpPageView> {
   TextEditingController emailTextC = new TextEditingController();
   TextEditingController passwordTextC = new TextEditingController();
   TextEditingController password2TextC = new TextEditingController();
+  UserController _userController = new UserController();
 
   @override
   void initState() {
@@ -53,9 +56,9 @@ class SignUpPageState extends State<SignUpPageView> {
                           SizedBox(height: 20,),
                           InputField(emailTextC, 'Email'),
                           SizedBox(height: 20,),
-                          InputField(passwordTextC, 'Password'),
+                          InputField(passwordTextC, 'Password', obscure: true),
                           SizedBox(height: 20,),
-                          InputField(password2TextC, 'Confirm Password'),
+                          InputField(password2TextC, 'Confirm Password', obscure: true),
                           Padding(
                             padding: EdgeInsets.only(top: 40),
                             child: ElevatedButton(
@@ -69,8 +72,23 @@ class SignUpPageState extends State<SignUpPageView> {
                                   style: TextStyle(color: Color(0xFFFAFAFA)),
                                 ),
                               ),
-                              onPressed: () {
-                                //TODO: DO LOGIN
+                              onPressed: ()  async {
+                                User user = new User();
+                                user.email = emailTextC.text;
+                                user.username = nameTextC.text;
+                                if(passwordTextC.text.compareTo(password2TextC.text) == 0) {
+                                  user.password = passwordTextC.text;
+                                }
+                                if(user.email.isNotEmpty && user.password.isNotEmpty && user.username.isNotEmpty) {
+                                  bool logged = await _userController.signUp(user);
+                                  if(logged) {
+                                    Navigator.pushNamed(context, '/home');
+                                  } else {
+                                    await _dialog('Couldn\'t sign up');
+                                  }
+                                } else {
+                                  await _dialog('Empty fields');
+                                }
                               },
                             ),
                           ),
@@ -118,6 +136,34 @@ class SignUpPageState extends State<SignUpPageView> {
             ),
           )
       ),
+    );
+  }
+
+  /// Makes a dialog box
+  Future<void> _dialog(String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

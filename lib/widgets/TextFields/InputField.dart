@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 class InputField extends StatefulWidget{
 
   TextEditingController textC;
+  bool obscure = false;
   String label;
 
-  InputField(this.textC, this.label);
+  InputField(this.textC, this.label, {this.obscure});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,6 +28,7 @@ class InputFieldState extends State<InputField> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8),
           child: TextField(
+            obscureText: this.widget.obscure != null ? this.widget.obscure : false,
             controller: this.widget.textC,
             decoration: InputDecoration(
               border: InputBorder.none,

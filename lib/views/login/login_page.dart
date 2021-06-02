@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:languageez_app/constants/text_styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:languageez_app/models/user.dart';
+import 'package:languageez_app/utility/user_controller.dart';
 import 'package:languageez_app/widgets/TextFields/InputField.dart';
 import 'package:languageez_app/constants/text_styles.dart';
 
@@ -19,6 +21,7 @@ class LoginPageState extends State<LoginPageView> {
 
   TextEditingController emailTextC = new TextEditingController();
   TextEditingController passwordTextC = new TextEditingController();
+  UserController _userController = new UserController();
 
   @override
   void initState() {
@@ -73,7 +76,7 @@ class LoginPageState extends State<LoginPageView> {
                         children: [
                           InputField(emailTextC, 'Email'),
                           SizedBox(height: 20,),
-                          InputField(passwordTextC, 'Password'),
+                          InputField(passwordTextC, 'Password', obscure: true),
                           Padding(
                             padding: EdgeInsets.only(top: 40),
                             child: ElevatedButton(
@@ -87,8 +90,20 @@ class LoginPageState extends State<LoginPageView> {
                                   style: TextStyle(color: Color(0xFFFAFAFA)),
                                 ),
                               ),
-                              onPressed: () {
-                                //TODO: DO LOGIN
+                              onPressed: () async {
+                                User user = new User();
+                                user.email = emailTextC.text;
+                                user.password = passwordTextC.text;
+                                if(user.email.isNotEmpty && user.password.isNotEmpty) {
+                                  bool logged = await _userController.login(user);
+                                  if(logged) {
+                                    Navigator.pushNamed(context, '/home');
+                                  } else {
+                                    await _dialog('Couldn\'t log in');
+                                  }
+                                } else {
+                                  await _dialog('Empty fields');
+                                }
                               },
                             ),
                           ),
@@ -111,6 +126,34 @@ class LoginPageState extends State<LoginPageView> {
             ),
           )
       ),
+    );
+  }
+
+  /// Makes a dialog box
+  Future<void> _dialog(String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
