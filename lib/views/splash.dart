@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:languageez_app/utility/user_controller.dart';
 
 class SplashView extends StatefulWidget {
   @override
@@ -12,6 +13,8 @@ class SplashView extends StatefulWidget {
 
 class SpashState extends State<SplashView> {
 
+  UserController _userController = UserController();
+
   @override
   void initState() {
     _timer();
@@ -19,10 +22,13 @@ class SpashState extends State<SplashView> {
   }
 
   void _timer () async{
-    //TODO: We gotta make sure we aren't already logged in
-    Future.delayed(Duration(seconds: 5)).then((value) {
-      Navigator.pushNamed(context, '/login');
+    String route = '/login';
+    if(await _userController.autoLogin())
+      route = '/home';
+    Future.delayed(Duration(seconds: 3)).then((value) {
+      Navigator.pushNamed(context, route);
     });
+
   }
 
   @override

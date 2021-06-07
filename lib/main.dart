@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'LanguagEz',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        backgroundColor: Color(0xFAFAFA),
+        backgroundColor: Color(0xFFFAFAFA),
+        shadowColor: Color(0x552D2D2D),
         accentColor: Color(0xFF4969F5),
         cardColor: Color(0xFF384478),
         bottomAppBarColor: Color(0xFF3A53C2),

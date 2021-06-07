@@ -76,19 +76,23 @@ class SignUpPageState extends State<SignUpPageView> {
                                 User user = new User();
                                 user.email = emailTextC.text;
                                 user.username = nameTextC.text;
+                                print('Password: ${passwordTextC.text} Password2: ${password2TextC.text}');
                                 if(passwordTextC.text.compareTo(password2TextC.text) == 0) {
                                   user.password = passwordTextC.text;
-                                }
-                                if(user.email.isNotEmpty && user.password.isNotEmpty && user.username.isNotEmpty) {
-                                  bool logged = await _userController.signUp(user);
-                                  if(logged) {
-                                    Navigator.pushNamed(context, '/home');
+                                  if(user.email.isNotEmpty && user.password.isNotEmpty && user.username.isNotEmpty) {
+                                    bool logged = await _userController.signUp(user);
+                                    if(logged) {
+                                      Navigator.pushNamed(context, '/home');
+                                    } else {
+                                      await _dialog('Couldn\'t sign up');
+                                    }
                                   } else {
-                                    await _dialog('Couldn\'t sign up');
+                                    await _dialog('Empty fields');
                                   }
                                 } else {
-                                  await _dialog('Empty fields');
+                                  await _dialog('Passwords don\'t match!');
                                 }
+
                               },
                             ),
                           ),
@@ -100,6 +104,9 @@ class SignUpPageState extends State<SignUpPageView> {
                             onPressed: () {
                               Navigator.pushNamed(context, '/login');
                             },
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height / 2.7,
                           )
                         ],
                       ),

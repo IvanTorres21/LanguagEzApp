@@ -16,7 +16,7 @@ Future<bool> login(User user) async {
   try {
     // Send the request
     Dio dio = new Dio();
-    var res = await dio.postUri(Uri(path: baseUrl + loginUrl), data: user.toJSON());
+    var res = await dio.post(baseUrl + loginUrl, data: user.toJSON());
 
     // Receive the request
     if (res.data['status_code'] == 200) {
@@ -35,9 +35,10 @@ Future<bool> login(User user) async {
 /// Sign up new user
 Future<bool> signUp(User user) async {
   try {
+    print(user.toJSON());
     // Send the request
     Dio dio = new Dio();
-    var res = await dio.postUri(Uri(path: baseUrl + signUpUrl), data: user.toJSON());
+    var res = await dio.post(baseUrl + signUpUrl, data: user.toJSON());
 
     // Receive the request
     if (res.data['status_code'] == 200) {
@@ -58,7 +59,7 @@ Future<User> getProfile() async {
   try {
     // Send the request
     Dio dio = new Dio();
-    var res = await dio.postUri(Uri(path: baseUrl + profileUrl));
+    var res = await dio.post(baseUrl + profileUrl);
     // Receive the request
     if (res.data['status_code'] == 200) {
       User user = User.fromJSON(res.data['user']);
@@ -78,7 +79,7 @@ Future<List<User>> getFriends() async {
     Dio dio = new Dio();
     String token = await storage.read(key: 'token');
     dio.options.headers['Authorization'] = "Bearer " + token;
-    var res = await dio.postUri(Uri(path: baseUrl + getFriendsUrl));
+    var res = await dio.post(baseUrl + getFriendsUrl);
 
     // Receive the request
     if (res.data['status_code'] == 200) {
@@ -104,7 +105,7 @@ Future<bool> addFriend(String friendEmail) async {
     String token = await storage.read(key: 'token');
     Map<String, dynamic> json = {'email': friendEmail};
     dio.options.headers['Authorization'] = "Bearer " + token;
-    var res = await dio.postUri(Uri(path: baseUrl + addFriendUrl), data: json);
+    var res = await dio.post(baseUrl + addFriendUrl, data: json);
     // Receive the request
     if (res.data['status_code'] == 200) {
       return true;
@@ -123,7 +124,7 @@ Future<bool> deleteFriend(int id) async {
     String token = await storage.read(key: 'token');
     Map<String, dynamic> json = {'friend_id': id};
     dio.options.headers['Authorization'] = "Bearer " + token;
-    var res = await dio.postUri(Uri(path: baseUrl + deleteFriendUrl), data: json);
+    var res = await dio.post(baseUrl + deleteFriendUrl, data: json);
     // Receive the request
     if (res.data['status_code'] == 200) {
       return true;

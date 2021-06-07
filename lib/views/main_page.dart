@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:languageez_app/constants/text_styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:languageez_app/utility/user_controller.dart';
 import 'package:languageez_app/views/dictionary/dictionaries_page.dart';
 import 'package:languageez_app/views/home_page.dart';
 import 'package:languageez_app/views/languages/languages_page.dart';
@@ -22,6 +23,7 @@ class MainPageView extends StatefulWidget {
 
 class MainPageState extends State<MainPageView> {
 
+  UserController _userController = new UserController();
   Widget _currentScreen;
   int _currentPage;
 
@@ -144,6 +146,14 @@ class MainPageState extends State<MainPageView> {
                   title: Text('Help', style: drawerStyle,),
                   leading: SvgPicture.asset('assets/icons/help.svg', width: 30,),
                   onTap: () {
+                  },
+                ),
+                ListTile(
+                  title: Text('Log out', style: drawerStyle,),
+                  leading: Icon(Icons.logout, size: 30, color: Color(0xFFFAFAFA),),
+                  onTap: () async {
+                    if(await _userController.logOut())
+                      Navigator.pushNamed(context, '/login');
                   },
                 ),
               ],

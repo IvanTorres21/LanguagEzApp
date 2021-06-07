@@ -35,5 +35,6 @@ class User {
     json['name'] = this.username;
     json['email'] = this.email;
     json['password'] = this.password;
+    return json;
   }
 }
