@@ -6,9 +6,15 @@ class User {
   String email;
   String password;
   int level;
-  double exp; //Experience if it isn't clear
+  int exp; //Experience if it isn't clear
 
-  User();
+  User() {
+    this.id = 0;
+    this.username = '';
+    this.email = '';
+    this.level = 0;
+    this.exp = 0;
+  }
 
   /// Recibe un usuario en formato JSON y crea una instancia
   User.fromJSON(Map<String, dynamic> json) {

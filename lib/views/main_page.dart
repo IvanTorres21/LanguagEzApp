@@ -8,6 +8,8 @@ import 'package:languageez_app/views/dictionary/dictionaries_page.dart';
 import 'package:languageez_app/views/home_page.dart';
 import 'package:languageez_app/views/languages/languages_page.dart';
 import 'package:languageez_app/views/profile/profile_page.dart';
+import 'package:languageez_app/views/settings/change_language_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class MainPageView extends StatefulWidget {
@@ -56,166 +58,153 @@ class MainPageState extends State<MainPageView> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Tienes que hacer el drawer
-    return Scaffold(
-      drawer: Drawer(
-        child:  Container(
-          color: Color(0xFF384478),
-          child: SafeArea(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Center(
-                    child: Text(
-                      'LanguagEz',
-                      style: titleStyle,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  child: Divider(
-                    thickness: 1,
-                    color: Color(0xFFFAFAFA),
-                  ),
-                ),
-                ListTile(
-                  title: Text('Home', style: drawerStyle,),
-                  leading: SvgPicture.asset('assets/icons/home.svg', width: 30,),
-                  onTap: () {
-                    _currentPage = 0;
-                    _getCurrPage();
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: Text('Languages', style: drawerStyle,),
-                  leading: SvgPicture.asset('assets/icons/graduation-hat.svg', width: 30,),
-                  onTap: () {
-                    _currentPage = 1;
-                    _getCurrPage();
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: Text('Dictionary', style: drawerStyle,),
-                  leading: SvgPicture.asset('assets/icons/book.svg', width: 30,),
-                  onTap: () {
-                    _currentPage = 2;
-                    _getCurrPage();
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: Text('Profile', style: drawerStyle,),
-                  leading: SvgPicture.asset('assets/icons/profile.svg', width: 30,),
-                  onTap: () {
-                    _currentPage = 3;
-                    _getCurrPage();
-                    Navigator.pop(context);
-                  },
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  child: Divider(
-                    thickness: 1,
-                    color: Color(0xFFFAFAFA),
-                  ),
-                ),
-                ListTile(
-                  title: Text('Settings', style: drawerStyle,),
-                  leading: SvgPicture.asset('assets/icons/settings.svg', width: 30,),
-                  onTap: () {
-                  },
-                ),
-                ListTile(
-                  title: Text('Language', style: drawerStyle,),
-                  leading: SvgPicture.asset('assets/icons/languages.svg', width: 30,),
-                  onTap: () {
-                  },
-                ),
-                ListTile(
-                  title: Text('Dark Mode', style: drawerStyle,),
-                  leading: SvgPicture.asset('assets/icons/mode.svg', width: 30,),
-                  onTap: () {
-                  },
-                ),
-                ListTile(
-                  title: Text('Help', style: drawerStyle,),
-                  leading: SvgPicture.asset('assets/icons/help.svg', width: 30,),
-                  onTap: () {
-                  },
-                ),
-                ListTile(
-                  title: Text('Log out', style: drawerStyle,),
-                  leading: Icon(Icons.logout, size: 30, color: Color(0xFFFAFAFA),),
-                  onTap: () async {
-                    if(await _userController.logOut())
-                      Navigator.pushNamed(context, '/login');
-                  },
-                ),
-              ],
-            ),
-          )
-        )
-      ),
-      body: SafeArea(
-          top: false,
-          child: Padding(
-            padding: EdgeInsets.zero,
-            child: Stack(
-              children: [
-                _currentScreen,
-                Positioned(
-                  bottom: 0,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 60,
-                    color: Color(0xFF3A53C2),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        IconButton(
-                            icon:SvgPicture.asset('assets/icons/home.svg'),
-                            color: Color(0xFFFAFAFA),
-                            onPressed: () {
-                              _currentPage = 0;
-                              _getCurrPage();
-                            }
+    return new WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        drawer: Drawer(
+            child:  Container(
+                color: Color(0xFF384478),
+                child: SafeArea(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Center(
+                          child: Text(
+                            'LanguagEz',
+                            style: titleStyle,
+                          ),
                         ),
-                        IconButton(
-                            icon: SvgPicture.asset('assets/icons/graduation-hat.svg'),
-                            color: Color(0xFFFAFAFA),
-                            onPressed: () {
-                              _currentPage = 1;
-                              _getCurrPage();
-                            }
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                        child: Divider(
+                          thickness: 1,
+                          color: Color(0xFFFAFAFA),
                         ),
-                        IconButton(
-                            icon: SvgPicture.asset('assets/icons/book.svg'),
-                            color: Color(0xFFFAFAFA),
-                            onPressed: () {
-                              _currentPage = 2;
-                              _getCurrPage();
-                            }
+                      ),
+                      ListTile(
+                        title: Text('${AppLocalizations.of(context).home}', style: drawerStyle,),
+                        leading: SvgPicture.asset('assets/icons/home.svg', width: 30,),
+                        onTap: () {
+                          _currentPage = 0;
+                          _getCurrPage();
+                          Navigator.pop(context);
+                        },
+                      ),
+                      ListTile(
+                        title: Text('${AppLocalizations.of(context).languages}', style: drawerStyle,),
+                        leading: SvgPicture.asset('assets/icons/graduation-hat.svg', width: 30,),
+                        onTap: () {
+                          _currentPage = 1;
+                          _getCurrPage();
+                          Navigator.pop(context);
+                        },
+                      ),
+                      ListTile(
+                        title: Text('${AppLocalizations.of(context).dictionary}', style: drawerStyle,),
+                        leading: SvgPicture.asset('assets/icons/book.svg', width: 30,),
+                        onTap: () {
+                          _currentPage = 2;
+                          _getCurrPage();
+                          Navigator.pop(context);
+                        },
+                      ),
+                      ListTile(
+                        title: Text('${AppLocalizations.of(context).profile}', style: drawerStyle,),
+                        leading: SvgPicture.asset('assets/icons/profile.svg', width: 30,),
+                        onTap: () {
+                          _currentPage = 3;
+                          _getCurrPage();
+                          Navigator.pop(context);
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                        child: Divider(
+                          thickness: 1,
+                          color: Color(0xFFFAFAFA),
                         ),
-                        IconButton(
-                            icon: SvgPicture.asset('assets/icons/profile.svg'),
-                            color: Color(0xFFFAFAFA),
-                            onPressed: () {
-                              _currentPage = 3;
-                              _getCurrPage();
-                            }
-                        )
-                      ],
-                    ),
+                      ),
+                      ListTile(
+                        title: Text('${AppLocalizations.of(context).language}', style: drawerStyle,),
+                        leading: SvgPicture.asset('assets/icons/languages.svg', width: 30,),
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) => SelectLanguagePage())
+                          );
+                        },
+                      ),
+                      ListTile(
+                        title: Text('${AppLocalizations.of(context).logout}', style: drawerStyle,),
+                        leading: Icon(Icons.logout, size: 30, color: Color(0xFFFAFAFA),),
+                        onTap: () async {
+                          if(await _userController.logOut())
+                            Navigator.pushNamed(context, '/login');
+                        },
+                      ),
+                    ],
                   ),
                 )
-              ],
-            ),
-          )
+            )
+        ),
+        body: SafeArea(
+            top: false,
+            child: Padding(
+              padding: EdgeInsets.zero,
+              child: Stack(
+                children: [
+                  _currentScreen,
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      color: Color(0xFF3A53C2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          IconButton(
+                              icon:SvgPicture.asset('assets/icons/home.svg'),
+                              color: Color(0xFFFAFAFA),
+                              onPressed: () {
+                                _currentPage = 0;
+                                _getCurrPage();
+                              }
+                          ),
+                          IconButton(
+                              icon: SvgPicture.asset('assets/icons/graduation-hat.svg'),
+                              color: Color(0xFFFAFAFA),
+                              onPressed: () {
+                                _currentPage = 1;
+                                _getCurrPage();
+                              }
+                          ),
+                          IconButton(
+                              icon: SvgPicture.asset('assets/icons/book.svg'),
+                              color: Color(0xFFFAFAFA),
+                              onPressed: () {
+                                _currentPage = 2;
+                                _getCurrPage();
+                              }
+                          ),
+                          IconButton(
+                              icon: SvgPicture.asset('assets/icons/profile.svg'),
+                              color: Color(0xFFFAFAFA),
+                              onPressed: () {
+                                _currentPage = 3;
+                                _getCurrPage();
+                              }
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+        ),
       ),
     );
   }

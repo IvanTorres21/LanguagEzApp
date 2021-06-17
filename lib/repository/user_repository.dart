@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:languageez_app/constants/urls.dart';
 import 'package:dio/dio.dart';
+import 'package:languageez_app/models/badge.dart';
 import 'package:languageez_app/models/user.dart';
 
 FlutterSecureStorage storage = FlutterSecureStorage();
@@ -10,6 +11,8 @@ final String profileUrl = 'get_profile';
 final String getFriendsUrl = 'get_friends';
 final String addFriendUrl = 'add_friend';
 final String deleteFriendUrl = 'delete_friend';
+final String badges = 'user_badges';
+final String assign = 'assign_badge';
 
 /// Logs in and saves the access token
 Future<bool> login(User user) async {
@@ -59,6 +62,8 @@ Future<User> getProfile() async {
   try {
     // Send the request
     Dio dio = new Dio();
+    String token = await storage.read(key: 'token');
+    dio.options.headers['Authorization'] = "Bearer " + token;
     var res = await dio.post(baseUrl + profileUrl);
     // Receive the request
     if (res.data['status_code'] == 200) {
@@ -86,7 +91,7 @@ Future<List<User>> getFriends() async {
       List<User> friends = [];
       List data = res.data['data'];
       data.forEach((friend) {
-        friends.add(User.fromJSON(friend));
+        friends.add(User.fromJSON(friend['user']));
       });
       return friends;
     } else {
@@ -133,5 +138,64 @@ Future<bool> deleteFriend(int id) async {
     }
   } catch (e) {
     return false;
+  }
+}
+
+/// Retrieve all user badges
+Future<List<Badge>> getBadges() async {
+  try {
+    Dio dio = new Dio();
+    String token = await storage.read(key: 'token');
+    dio.options.headers['Authorization'] = "Bearer " + token;
+    var res = await dio.post(baseUrl + badges);
+    // Receive the request
+    if (res.data['status_code'] == 200) {
+      List helper = res.data['data'];
+      List<Badge> result = [];
+      helper.forEach((element) {
+        result.add(Badge.fromJSON(element));
+      });
+      return result;
+    } else {
+      return [];
+    }
+  } catch (e) {
+    return [];
+  }
+}
+
+/// Retrieve all friend badges
+Future<List<Badge>> getFriendBadges(int id) async {
+  try {
+    Dio dio = new Dio();
+    String token = await storage.read(key: 'token');
+    dio.options.headers['Authorization'] = "Bearer " + token;
+    Map<String, dynamic> json = {'user_id': id};
+    var res = await dio.post(baseUrl + badges, data: json);
+    // Receive the request
+    if (res.data['status_code'] == 200) {
+      List helper = res.data['data'];
+      List<Badge> result = [];
+      helper.forEach((element) {
+        result.add(Badge.fromJSON(element));
+      });
+      return result;
+    } else {
+      return [];
+    }
+  } catch (e) {
+    return [];
+  }
+}
+
+Future<void> assignBadge(int id) async {
+  try {
+    Dio dio = new Dio();
+    String token = await storage.read(key: 'token');
+    dio.options.headers['Authorization'] = "Bearer " + token;
+    Map<String, dynamic> json = {'badge_id': id};
+    var res = await dio.post(baseUrl + assign, data: json);
+  } catch (e) {
+    print(e.toString());
   }
 }

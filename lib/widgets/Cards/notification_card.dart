@@ -4,12 +4,13 @@ import 'package:languageez_app/models/notification.dart';
 class NotificationCard extends StatelessWidget {
 
   NotificationModel _notification ;
-
+  Locale myLocale;
 
   NotificationCard(this._notification);
 
   @override
   Widget build(BuildContext context) {
+    myLocale = Localizations.localeOf(context);
     return Padding(
       padding: EdgeInsets.only(bottom: 15),
       child: Container(
@@ -27,7 +28,7 @@ class NotificationCard extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             child: Text(
-                _notification.date + ' - ' +_notification.message['en']
+                _notification.date + ' - ' +_notification.message[myLocale.languageCode]
             ),
           )
       ),

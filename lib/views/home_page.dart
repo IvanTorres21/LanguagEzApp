@@ -4,6 +4,7 @@ import 'package:languageez_app/constants/text_styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:languageez_app/utility/notification_controller.dart';
 import 'package:languageez_app/widgets/Cards/notification_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePageView extends StatefulWidget {
   @override
@@ -41,7 +42,7 @@ class HomePageState extends State<HomePageView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'News',
+                '${AppLocalizations.of(context).news}',
                 style: titleStyle.merge(TextStyle(color: Colors.black87)),
               ),
               Divider(
@@ -66,7 +67,7 @@ class HomePageState extends State<HomePageView> {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 50, horizontal: 10),
               child: Text(
-                'Welcome to \n    LanguagEz!',
+                '${AppLocalizations.of(context).welcome}',
                 style: titleStyle,
               ),
             )),

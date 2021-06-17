@@ -6,6 +6,8 @@ import 'package:languageez_app/repository/user_repository.dart' as rep;
 class UserController {
 
   FlutterSecureStorage storage = FlutterSecureStorage();
+  List<User> friends = [];
+  User user;
 
   /// Manages login
   Future<bool> login(User user) async {
@@ -51,6 +53,10 @@ class UserController {
     }
   }
 
+  Future<void> loadProfile() async {
+    user = await rep.getProfile();
+  }
+
   /// Add friend
   Future<bool> addFriend(String email) async {
     try {
@@ -65,14 +71,16 @@ class UserController {
   }
 
   /// Get friends
-  Future<List<User>> getFriends() async {
-    try {
-      List<User> friends = [];
-      friends = await rep.getFriends();
-      return friends;
-    } catch(e) {
-      print(e.toString());
-      return [];
-    }
+   Future<void> getFriends() async {
+     friends = await rep.getFriends();
+  }
+
+  /// Delete friend
+  Future<void> deleteFriend(int id) async {
+    await rep.deleteFriend(id);
+  }
+
+  Future<void> changeLocale(String locale) async {
+    await storage.write(key: 'locale', value: locale);
   }
 }

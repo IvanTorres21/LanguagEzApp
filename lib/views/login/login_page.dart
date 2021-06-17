@@ -31,100 +31,103 @@ class LoginPageState extends State<LoginPageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-          top: false,
-          child: Padding(
-            padding: EdgeInsets.zero,
-            child: Stack(
-              children: [
-                Positioned(
-                  bottom: 60,
-                  child: SvgPicture.asset('assets/svg/lower_decor.svg'),
-                ),
-                Positioned(
-                  bottom: 0,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 60,
-                    color: Color(0xFF3A53C2),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+            top: false,
+            child: Padding(
+              padding: EdgeInsets.zero,
+              child: Stack(
+                children: [
+                  Positioned(
+                    bottom: 60,
+                    child: SvgPicture.asset('assets/svg/lower_decor.svg'),
                   ),
-                ),
-                Positioned(
-                    bottom: 20,
-                    right: 0,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                      child: Text(
-                        'Login',
-                        style: titleStyle,
-                      ),
-                    )
-                ),
-                ListView(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 40, bottom: 20),
-                        child: SvgPicture.asset('assets/svg/logo.svg', width: 140,),
-                      ),
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      color: Color(0xFF3A53C2),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 50),
-                      child: Column(
-                        children: [
-                          InputField(emailTextC, 'Email'),
-                          SizedBox(height: 20,),
-                          InputField(passwordTextC, 'Password', obscure: true),
-                          Padding(
-                            padding: EdgeInsets.only(top: 40),
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF3A53C2)),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Text(
-                                  'Login',
-                                  style: TextStyle(color: Color(0xFFFAFAFA)),
-                                ),
-                              ),
-                              onPressed: () async {
-                                User user = new User();
-                                user.email = emailTextC.text;
-                                user.password = passwordTextC.text;
-                                if(user.email.isNotEmpty && user.password.isNotEmpty) {
-                                  bool logged = await _userController.login(user);
-                                  if(logged) {
-                                    Navigator.pushNamed(context, '/home');
-                                  } else {
-                                    await _dialog('Couldn\'t log in');
-                                  }
-                                } else {
-                                  await _dialog('Empty fields');
-                                }
-                              },
-                            ),
-                          ),
-                          TextButton(
-                            child: Text(
-                              'Don\'t have an account?',
-                              style: smallText,
-                            ),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/signup');
-                            },
-                          )
-                        ],
+                  ),
+                  Positioned(
+                      bottom: 20,
+                      right: 0,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                        child: Text(
+                          'Login',
+                          style: titleStyle,
+                        ),
+                      )
+                  ),
+                  ListView(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 40, bottom: 20),
+                          child: SvgPicture.asset('assets/svg/logo.svg', width: 140,),
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 50),
+                        child: Column(
+                          children: [
+                            InputField(emailTextC, 'Email'),
+                            SizedBox(height: 20,),
+                            InputField(passwordTextC, 'Password', obscure: true),
+                            Padding(
+                              padding: EdgeInsets.only(top: 40),
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF3A53C2)),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(color: Color(0xFFFAFAFA)),
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  User user = new User();
+                                  user.email = emailTextC.text;
+                                  user.password = passwordTextC.text;
+                                  if(user.email.isNotEmpty && user.password.isNotEmpty) {
+                                    bool logged = await _userController.login(user);
+                                    if(logged) {
+                                      Navigator.pushNamed(context, '/home');
+                                    } else {
+                                      await _dialog('Couldn\'t log in');
+                                    }
+                                  } else {
+                                    await _dialog('Empty fields');
+                                  }
+                                },
+                              ),
+                            ),
+                            TextButton(
+                              child: Text(
+                                'Don\'t have an account?',
+                                style: smallText,
+                              ),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/signup');
+                              },
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
 
-              ],
-            ),
-          )
+                ],
+              ),
+            )
+        ),
       ),
     );
   }
